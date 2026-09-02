@@ -162,6 +162,79 @@ em {
 }
 
 /* ==========================================
+   HOME COLUMN SECTION — steps
+========================================== */
+.step-number {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.step-icon {
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-heading {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 26px;
+  color: var(--color-navy);
+}
+
+.step-heading b,
+.step-heading strong {
+  color: var(--step-accent, var(--color-navy));
+  font-weight: 700;
+}
+
+.step-arrow {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Heartbeat / ping pulse behind the active step's icon */
+.step-pulse-wrap {
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+
+.step-pulse-ring {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: 9999px;
+  background-color: var(--step-color, var(--color-navy));
+  animation: step-pulse 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.step-pulse-ring-delay {
+  animation-delay: 0.7s;
+}
+
+@keyframes step-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  75%,
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+/* ==========================================
    HOME HERO — diagonal white panel heading
 ========================================== */
 .hero-panel-heading,
