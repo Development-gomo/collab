@@ -46,7 +46,7 @@ export default function HomeHero({ data }) {
       </div>
 
       {/* Gradient Overlay */}
-      {/* <div className="absolute inset-0 bg-linear-to-b from-(--color-navy)/25 via-(--color-navy)/5 to-transparent -z-10"></div> */}
+      <div className="absolute inset-0 bg-linear-to-b from-(--color-black)/25 via-(--color-black)/5 to-transpa  rent -z-10"></div>
 
       {/* Diagonal panel */}
       <div className="hero-diagonal-panel absolute bottom-0 left-0 w-full lg:w-full h-[62%] sm:h-[56%] lg:h-[66%] bg-(--color-warm-stone) shadow-2xl" />

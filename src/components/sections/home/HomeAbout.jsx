@@ -38,15 +38,17 @@ export default function AboutUs({ data }) {
         {/* LEFT — DIAGONAL TEXT PANEL */}
         <div className="about-diagonal-panel relative z-10 w-full lg:w-[52%] bg-(--color-warm-stone) px-6 lg:pr-16 lg:pl-31 py-12 lg:py-0 order-2 lg:order-1 flex flex-col justify-center">
           {/* SUB HEADING */}
-          {sub_heading && (
-            <motion.p
-              className="subheading-label text-(--color-teracotta)! mb-3"
+            {sub_heading && (
+            <motion.div
+              className="flex items-center gap-2 mb-2 md:mb-4"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              viewport={{ once: true }}>
-              {sub_heading}
-            </motion.p>
+              viewport={{ once: true }}
+            >
+              <span className="h-2 w-2 rounded-full bg-(--color-accent)"></span>
+              <span className="subheading-label">{sub_heading}</span>
+            </motion.div>
           )}
 
           {/* HEADING */}

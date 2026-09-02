@@ -171,10 +171,10 @@ export default async function Footer({ lang = DEFAULT_LANG }) {
           <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-start gap-x-10 gap-y-10 pb-8">
             {/* LOGO + TAGLINE */}
             <div className="lg:w-[180px] shrink-0">
-              <p className="text-[28px] leading-none font-bold text-(--color-navy)">
-                Collab<span className="text-(--color-clay)">.</span>
+              <p className="text-[28px] leading-none font-bold text-black">
+                Collab<span className="text-black">.</span>
               </p>
-              <p className="mt-3 text-sm text-(--color-grey) leading-5">
+              <p className="mt-3 text-sm text-(--color-navy) leading-5">
                 Digital Activation Agency
                 <br />
                 by Collaboration Art

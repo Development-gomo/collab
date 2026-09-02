@@ -8,7 +8,7 @@ import ArrowSvg from "../../../../public/right-arrow.svg";
 import { DEFAULT_LANG, langHref } from "@/config";
 
 export default function HomeColumnSection({ data, lang = DEFAULT_LANG }) {
-  const { sub_heading, heading, cta_text, cta_url } = data || {};
+  const { sub_heading, heading, short_text, cta_text, cta_url } = data || {};
   const bgImage = data?.bg_image?.url || "";
   const columns_side = data?.columns_side || [];
 
