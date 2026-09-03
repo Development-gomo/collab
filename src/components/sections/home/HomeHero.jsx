@@ -12,7 +12,7 @@ export default function HomeHero({ data }) {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
 
   const bgImage = data?.bg_image?.url || "";
   const bgVideo = data?.bg_video?.url || "";
@@ -155,10 +155,10 @@ export default function HomeHero({ data }) {
 
       {/* Scroll cue */}
       <motion.a
-        href="#next"
+        href="#about-section"
         onClick={(e) => {
           e.preventDefault();
-          document.querySelector("#next")?.scrollIntoView({ behavior: "smooth" });
+          document.querySelector("#about-section")?.scrollIntoView({ behavior: "smooth" });
         }}
         className="hero-scroll-cue absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-(--color-navy)"
         initial={{ opacity: 0, y: -6 }}
