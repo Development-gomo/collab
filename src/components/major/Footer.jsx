@@ -74,7 +74,7 @@ export default async function Footer({ lang = DEFAULT_LANG }) {
     <>
       {enable_section && (
       <section id="footer" className="relative bg-(--color-warm-stone) overflow-hidden">
-        <div className="relative flex flex-col lg:flex-row lg:h-[520px]">
+        <div className="relative flex flex-col lg:flex-row lg:min-h-[480px]">
           {/* RIGHT — IMAGE */}
           <FooterImage
             src={bg_image?.url}
@@ -82,7 +82,7 @@ export default async function Footer({ lang = DEFAULT_LANG }) {
           />
 
           {/* LEFT — DIAGONAL TEXT PANEL */}
-          <div className="about-diagonal-panel relative z-10 w-full lg:w-[48%] lg:h-full bg-(--color-warm-stone) px-6 lg:pl-16 lg:pr-16 py-16 lg:py-0 order-2 lg:order-1 flex flex-col justify-center">
+          <div className="about-diagonal-panel relative z-10 w-full lg:w-[48%] bg-(--color-warm-stone) px-6 lg:pl-16 lg:pr-16 py-16 lg:py-0 order-2 lg:order-1 flex flex-col justify-center">
             {sub_heading && (
               <div className="flex items-center gap-2 mb-4">
                 <span className="h-2 w-2 rounded-full bg-(--color-clay)"></span>
