@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { DEFAULT_LANG } from "@/config";
 import ArrowSvg from "../../../../public/right-arrow.svg";
 
@@ -33,6 +33,13 @@ function AnimatedNumber({ value, duration = 2000 }) {
 }
 
 export default function HomeCounter({ data, lang = DEFAULT_LANG }) {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
+
   if (!data) return null;
 
   const {
@@ -46,19 +53,21 @@ export default function HomeCounter({ data, lang = DEFAULT_LANG }) {
   } = data;
 
   return (
-    <section id="collaboration" className="relative w-full py-12 md:py-44 text-white">
+    <section ref={sectionRef} id="collaboration" className="relative w-full py-12 md:py-44 text-white overflow-hidden">
 
       {/* BACKGROUND IMAGE */}
       {bg_image?.url && (
-        <Image
-          src={bg_image.url}
-          alt="background"
-          fill
-          priority
-          className="absolute inset-0 w-full h-full object-cover -z-10"
-        />
+        <motion.div className="absolute inset-0 -z-10" style={{ y: bgY, scale: 1.15 }}>
+          <Image
+            src={bg_image.url}
+            alt="background"
+            fill
+            priority
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
       )}
-      
+
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-linear-to-b from-(--color-navy)/85 via-(--color-navy)/75 to-(--color-navy)/65 -z-10"></div>
 
@@ -149,12 +158,16 @@ export default function HomeCounter({ data, lang = DEFAULT_LANG }) {
         {/* RIGHT COUNTERS GRID */}
         <div className="grid grid-cols-2 gap-4 mt-8 lg:mt-0">
           {counters.map((item, i) => (
-            <div
+            <motion.div
               key={i}
               className="lg:max-w-[312px] p-4
-                lg:px-8 lg:py-10 rounded-sm bg-(--color-brand) 
+                lg:px-8 lg:py-10 rounded-sm bg-(--color-brand)
                 shadow-lg
               "
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: i * 0.12 }}
+              viewport={{ once: true }}
             >
               <p className="font-semibold text-[50px] leading-[68px] lg:text-[64px] lg:leading-[70px]">
                 <AnimatedNumber value={item.number} />{item.suffix}<span className="text-(--color-accent)">{item.suffix_highlighted}</span>
@@ -162,7 +175,7 @@ export default function HomeCounter({ data, lang = DEFAULT_LANG }) {
               <p className="text-white/80">
                 {item.short_text}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
 

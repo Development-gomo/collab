@@ -1,12 +1,41 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import ArrowSvg from "../../../../public/right-arrow.svg";
 import CalenerSvg from "../../../../public/calender.svg";
 import { DEFAULT_LANG, langHref } from "@/config";
+
+function TiltCard({ children, className }) {
+  const rotateX = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 });
+  const rotateY = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 });
+
+  const handleMouseMove = (e) => {
+    const bounds = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - bounds.left) / bounds.width - 0.5;
+    const py = (e.clientY - bounds.top) / bounds.height - 0.5;
+    rotateY.set(px * 6);
+    rotateX.set(py * -6);
+  };
+
+  const handleMouseLeave = () => {
+    rotateX.set(0);
+    rotateY.set(0);
+  };
+
+  return (
+    <motion.div
+      className={className}
+      style={{ rotateX, rotateY, transformPerspective: 800 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function HomeNews({ data, lang = DEFAULT_LANG, prefetchedPosts }) {
   const posts = prefetchedPosts || [];
@@ -120,8 +149,9 @@ export default function HomeNews({ data, lang = DEFAULT_LANG, prefetchedPosts })
         ------------------------------------------------------------ */}
         <Link
           href={langHref(`/post/${webinarPost.slug}`, lang)}
-          className="relative rounded-lg overflow-hidden block group"
+          className="block"
         >
+        <TiltCard className="relative rounded-lg overflow-hidden group">
           {/* FEATURED IMAGE */}
           {webinarPost?._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
             <Image
@@ -199,21 +229,28 @@ export default function HomeNews({ data, lang = DEFAULT_LANG, prefetchedPosts })
               )}
             </div>
           </div>
+        </TiltCard>
         </Link>
 
         {/* ------------------------------------------------------------
            RIGHT SIDE — TWO SMALL POSTS
         ------------------------------------------------------------ */}
         <div className="flex flex-col gap-6">
-          {otherPosts.map((post) => {
+          {otherPosts.map((post, idx) => {
             const img =
               post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
 
             const category = getCategories(post)[0]?.name || "Insights";
 
             return (
-              <Link
+              <motion.div
                 key={post.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.12 }}
+                viewport={{ once: true }}
+              >
+              <Link
                 href={langHref(`/post/${post.slug}`, lang)}
                 className="flex gap-6 group items-center"
               >
@@ -258,6 +295,7 @@ export default function HomeNews({ data, lang = DEFAULT_LANG, prefetchedPosts })
                   </div>
                 </div>
               </Link>
+              </motion.div>
             );
           })}
         </div>

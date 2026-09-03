@@ -113,7 +113,7 @@ export default function CaseStudyListing({
             )}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"  >
-            {visibleCases.map((item) => {
+            {visibleCases.map((item, idx) => {
               const img =
                 item?._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
               const clientLogo = item?.acf?.client_logo?.url || "";
@@ -123,17 +123,21 @@ export default function CaseStudyListing({
               const section_label = item?.acf?.section_label || "";
 
               return (
-                <div
+                <motion.div
                   key={item.id}
-                  className="rounded-lg overflow-hidden bg-(--color-brand)"
+                  className="group rounded-lg overflow-hidden bg-(--color-brand)"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: (idx % 6) * 0.1 }}
+                  viewport={{ once: true }}
                 >
-                  <div className="relative z-10 h-75">
+                  <div className="relative z-10 h-75 overflow-hidden">
                     {img && (
                       <Image
                         src={img}
                         fill
                         alt={title}
-                        className="object-cover h-255"
+                        className="object-cover h-255 transition-transform duration-500 ease-out group-hover:scale-105"
                       />
                     )}
 
@@ -193,8 +197,7 @@ export default function CaseStudyListing({
                       </>
                     )}
                     <Link
-                      href="#"
-                      //href={langHref(`/case-study/${item.slug}`, lang)}
+                      href={langHref(`/case-study/${item.slug}`, lang)}
                       className=" mt-8
                       gap-3 group relative inline-flex items-center
                       rounded-sm bg-(--color-accent) px-6 py-4 text-white
@@ -238,7 +241,7 @@ export default function CaseStudyListing({
                       </span>
                     </Link>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>

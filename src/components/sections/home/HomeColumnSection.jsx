@@ -67,41 +67,53 @@ export default function HomeColumnSection({ data, lang = DEFAULT_LANG }) {
             )}
 
             {cta_text && cta_url && (
-              <Link
-                href={langHref(cta_url, lang)}
-                className="gap-3 group relative inline-flex items-center rounded-sm bg-(--color-brand) px-6 py-4 text-white transition-all duration-300 hover:bg-(--color-brand) w-[235px] overflow-hidden select-none mt-8 md:mt-10"
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: columns_side.length * 0.1 + 0.3 }}
+                viewport={{ once: true }}
               >
-                <span className="relative w-6 flex items-center justify-center">
-                  <span className="absolute h-2 w-2 rounded-full bg-(--color-mint) transition-all duration-300 ease-out group-hover:opacity-0 group-hover:-translate-x-1"></span>
-                </span>
-                <span className="flex-1 text-[16px] leading-none transition-all duration-300 ease-out group-hover:-translate-x-4 whitespace-nowrap">
-                  {cta_text}
-                </span>
-                <span className="relative w-4 flex items-center justify-center">
-                  <span className="w-4 absolute opacity-0 -translate-x-4 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:-translate-x-2">
-                    <Image src={ArrowSvg} width={13} height={13} alt="arrow" />
+                <Link
+                  href={langHref(cta_url, lang)}
+                  className="gap-3 group relative inline-flex items-center rounded-sm bg-(--color-brand) px-6 py-4 text-white transition-all duration-300 hover:bg-(--color-brand) w-[235px] overflow-hidden select-none mt-8 md:mt-10"
+                >
+                  <span className="relative w-6 flex items-center justify-center">
+                    <span className="absolute h-2 w-2 rounded-full bg-(--color-mint) transition-all duration-300 ease-out group-hover:opacity-0 group-hover:-translate-x-1"></span>
                   </span>
-                </span>
-              </Link>
+                  <span className="flex-1 text-[16px] leading-none transition-all duration-300 ease-out group-hover:-translate-x-4 whitespace-nowrap">
+                    {cta_text}
+                  </span>
+                  <span className="relative w-4 flex items-center justify-center">
+                    <span className="w-4 absolute opacity-0 -translate-x-4 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:-translate-x-2">
+                      <Image src={ArrowSvg} width={13} height={13} alt="arrow" />
+                    </span>
+                  </span>
+                </Link>
+              </motion.div>
             )}
           </div>
 
           {/* COLUMN 2 — STEPS, AUTO-CYCLING PULSE */}
           {columns_side.length > 0 && (
-            <div className="flex-1 flex flex-col divide-y divide-(--color-warm-stand)">
+            <div className="relative flex-1 flex flex-col divide-y divide-(--color-warm-stand)">
+              {/* Connecting timeline */}
+              <div className="step-connector-line hidden md:block" />
+
               {columns_side.map((col, idx) => {
                 const color = `var(${STEP_COLORS[idx % STEP_COLORS.length]})`;
                 const isActive = idx === activeIndex;
                 return (
                   <motion.div
                     key={idx}
-                    className="flex items-center gap-6 py-6 first:pt-0 last:pb-0"
+                    className={`step-row flex items-center gap-6 py-6 px-4 -mx-4 first:pt-0 last:pb-0 rounded-lg transition-colors duration-500 ${
+                      isActive ? "bg-(--color-warm-stone)" : "bg-transparent"
+                    }`}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: idx * 0.1 }}
                     viewport={{ once: true }}
                   >
-                    <div className="step-pulse-wrap shrink-0" style={{ "--step-color": color }}>
+                    <div className="step-pulse-wrap relative shrink-0" style={{ "--step-color": color }}>
                       {isActive && (
                         <>
                           <span className="step-pulse-ring" />

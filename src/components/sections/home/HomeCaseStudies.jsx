@@ -1,7 +1,7 @@
 // src/components/sections/HomeCaseStudies.jsx
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,29 +11,22 @@ import ArrowSvgB from "../../../../public/right-arrow-black.png";
 import CheckSvg from "../../../../public/check.svg";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
 
 import { DEFAULT_LANG, langHref } from "@/config";
 
+const AUTOPLAY_DELAY = 5000;
+
 export default function HomeCaseStudies({ data, lang = DEFAULT_LANG, prefetchedCases }) {
   const cases = prefetchedCases || [];
+  const [activeIndex, setActiveIndex] = React.useState(cases.length > 1 ? 1 : 0);
 
   const bgImage = data?.bg_image?.url || "";
   const { sub_heading, heading, cta_text, cta_url, read_more_text } =
     data || {};
-
-  // Nudge carousel to first real slide once Swiper is ready
-  useEffect(() => {
-    if (!cases.length) return;
-    const raf = requestAnimationFrame(() => {
-      const btn = document.querySelector(".case-next-btn");
-      if (btn) btn.click();
-    });
-    return () => cancelAnimationFrame(raf);
-  }, [cases.length]);
 
   if (!cases.length) return null;
 
@@ -120,11 +113,14 @@ export default function HomeCaseStudies({ data, lang = DEFAULT_LANG, prefetchedC
         {/* FULL WIDTH SLIDER */}
         <div className="w-full">
           <Swiper
+            className="case-swiper"
             modules={[Navigation]}
             navigation={{
               nextEl: ".case-next-btn",
               prevEl: ".case-prev-btn",
             }}
+            onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+            initialSlide={cases.length > 1 ? 1 : 0}
             slidesPerView={1.5}
             spaceBetween={32}
             centeredSlides={true}
@@ -257,8 +253,30 @@ export default function HomeCaseStudies({ data, lang = DEFAULT_LANG, prefetchedC
             })}
           </Swiper>
 
+          {/* PROGRESS RAIL */}
+          <div className="flex justify-center gap-2 mt-10 lg:mt-12 web-width px-6">
+            {cases.map((item, i) => (
+              <div
+                key={item.id}
+                className="case-progress-track flex-1 max-w-40 h-[3px] rounded-full bg-(--color-grey)/25 overflow-hidden"
+              >
+                <span
+                  key={i === activeIndex ? `${i}-active` : i}
+                  className="case-progress-fill block h-full bg-(--color-brand)"
+                  style={{
+                    width: i < activeIndex ? "100%" : i === activeIndex ? undefined : "0%",
+                    animation:
+                      i === activeIndex
+                        ? `case-progress-fill ${AUTOPLAY_DELAY}ms linear forwards`
+                        : "none",
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+
           {/* NAV BUTTONS */}
-          <div className="flex justify-center gap-4 mt-8 lg:mt-10">
+          <div className="flex justify-center gap-4 mt-6 lg:mt-8">
             <button className="cursor-pointer case-prev-btn w-12 h-12 rounded-md border border-gray-300 group flex items-center justify-center hover:bg-(--color-grey) transition-colors duration-300">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12.532 12.403" className="transition-colors duration-300">
                 <path d="M248.292,12.738h10.661a.338.338,0,1,1,0,.675H248.292l5.162,5.161a.338.338,0,1,1-.478.478L247,13.075,252.976,7.1a.338.338,0,1,1,.478.478Z" transform="translate(-246.859 -6.874)" className="fill-(--color-grey) stroke-(--color-grey) group-hover:fill-white group-hover:stroke-white" strokeWidth="0.2" fillRule="evenodd"/>

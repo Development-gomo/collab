@@ -3,10 +3,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import ArrowSvg from "../../../../public/right-arrow.svg";
 
 export default function HomeHero({ data }) {
+  const sectionRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"]);
+
   const bgImage = data?.bg_image?.url || "";
   const bgVideo = data?.bg_video?.url || "";
 
@@ -22,9 +29,9 @@ export default function HomeHero({ data }) {
   const secondaryCtaUrl = data?.secondary_cta_url || "";
 
   return (
-    <section className="relative w-full overflow-hidden hero">
+    <section ref={sectionRef} className="relative w-full overflow-hidden hero">
       {/* BG IMAGE/VIDEO */}
-      <div className="absolute hero-bg inset-0 -z-10">
+      <motion.div className="absolute hero-bg inset-0 -z-10" style={{ y: bgY, scale: 1.1 }}>
         {bgVideo ? (
           <video
             src={bgVideo}
@@ -43,10 +50,10 @@ export default function HomeHero({ data }) {
             className="object-cover object-top -top-[123px]"
           />
         ) : null}
-      </div>
+      </motion.div>
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-linear-to-b from-(--color-black)/25 via-(--color-black)/5 to-transpa  rent -z-10"></div>
+      <div className="absolute inset-0 bg-linear-to-b from-(--color-black)/25 via-(--color-black)/5 to-transparent -z-10"></div>
 
       {/* Diagonal panel */}
       <div className="hero-diagonal-panel absolute bottom-0 left-0 w-full lg:w-full h-[62%] sm:h-[56%] lg:h-[66%] bg-(--color-warm-stone) shadow-2xl" />
@@ -145,6 +152,22 @@ export default function HomeHero({ data }) {
           )}
         </div>
       </div>
+
+      {/* Scroll cue */}
+      <motion.a
+        href="#next"
+        onClick={(e) => {
+          e.preventDefault();
+          document.querySelector("#next")?.scrollIntoView({ behavior: "smooth" });
+        }}
+        className="hero-scroll-cue absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-(--color-navy)"
+        initial={{ opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+      >
+        <span className="subheading-label text-(--color-navy)!">Scroll</span>
+        <span className="hero-scroll-cue-arrow">↓</span>
+      </motion.a>
     </section>
   );
 }

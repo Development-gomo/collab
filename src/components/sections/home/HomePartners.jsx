@@ -46,9 +46,9 @@ export default function HomePartners({ data }) {
       </div>
 
       {/* MARQUEE SLIDER */}
-      <div className="overflow-hidden">
+      <div className="partners-marquee-mask overflow-hidden">
         <div
-          className="flex gap-4"
+          className="partners-marquee-track flex gap-4"
           style={{
             width: "max-content",
             animation: "partners-marquee 30s linear infinite",
@@ -75,6 +75,30 @@ export default function HomePartners({ data }) {
         @keyframes partners-marquee {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
+        }
+        .partners-marquee-mask {
+          -webkit-mask-image: linear-gradient(
+            to right,
+            transparent 0,
+            #000 64px,
+            #000 calc(100% - 64px),
+            transparent 100%
+          );
+          mask-image: linear-gradient(
+            to right,
+            transparent 0,
+            #000 64px,
+            #000 calc(100% - 64px),
+            transparent 100%
+          );
+        }
+        .partners-marquee-mask:hover .partners-marquee-track {
+          animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .partners-marquee-track {
+            animation: none !important;
+          }
         }
       `}</style>
     </section>

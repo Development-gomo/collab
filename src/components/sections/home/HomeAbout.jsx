@@ -25,14 +25,28 @@ export default function AboutUs({ data }) {
       <div className="relative flex flex-col lg:flex-row lg:min-h-[620px]">
         {/* RIGHT — IMAGE */}
         {sectionImageUrl && (
-          <div className="relative w-full h-[280px] lg:absolute lg:right-0 lg:top-0 lg:h-full lg:w-[66%] order-1 lg:order-2">
-            <Image
-              src={sectionImageUrl}
-              alt=""
-              fill
-              className="object-cover"
-            />
-          </div>
+          <motion.div
+            className="relative w-full h-[280px] lg:absolute lg:right-0 lg:top-0 lg:h-full lg:w-[66%] order-1 lg:order-2 overflow-hidden"
+            initial={{ clipPath: "inset(0 0 0 100%)" }}
+            whileInView={{ clipPath: "inset(0 0 0 0%)" }}
+            transition={{ duration: 0.9, ease: "easeInOut" }}
+            viewport={{ once: true }}
+          >
+            <motion.div
+              className="absolute inset-0"
+              initial={{ scale: 1 }}
+              whileInView={{ scale: 1.08 }}
+              transition={{ duration: 15, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
+              <Image
+                src={sectionImageUrl}
+                alt=""
+                fill
+                className="object-cover"
+              />
+            </motion.div>
+          </motion.div>
         )}
 
         {/* LEFT — DIAGONAL TEXT PANEL */}

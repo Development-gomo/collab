@@ -75,8 +75,14 @@ export default function AskAI({ data }) {
             >
               {/* Arrow button top-right */}
               <div className="flex justify-end">
-                <span className="flex items-center justify-center w-13 h-13 rounded-full bg-(--color-brand) text-white transition-transform group-hover:translate-x-1">
-                  <Image src={ArrowSvg} alt="arrow" width={16} height={16} />
+                <span className="ai-arrow-badge flex items-center justify-center w-13 h-13 rounded-full bg-(--color-brand) text-white transition-transform duration-300 ease-out group-hover:scale-110">
+                  <Image
+                    src={ArrowSvg}
+                    alt="arrow"
+                    width={16}
+                    height={16}
+                    className="transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:rotate-45"
+                  />
                 </span>
               </div>
 
