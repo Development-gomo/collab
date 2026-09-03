@@ -105,7 +105,7 @@ export default function HomeColumnSection({ data, lang = DEFAULT_LANG }) {
                 return (
                   <motion.div
                     key={idx}
-                    className={`step-row flex items-center gap-6 py-6 px-4 -mx-4 first:pt-0 last:pb-0 rounded-lg transition-colors duration-500 ${
+                    className={`step-row flex items-center gap-6 py-6 px-4 -mx-4 first:pt-0 rounded-lg transition-colors duration-500 ${
                       isActive ? "bg-(--color-warm-stone)" : "bg-transparent"
                     }`}
                     initial={{ opacity: 0, y: 20 }}

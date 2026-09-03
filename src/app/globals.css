@@ -115,6 +115,10 @@ em {
     top: -90px !important;
 }
 
+.btn-hide {
+    display: none;
+}
+
 /* ==========================================
    HOME HERO — diagonal panel shape
 ========================================== */
