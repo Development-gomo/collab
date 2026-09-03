@@ -121,7 +121,7 @@ export default function HomeColumnSection({ data, lang = DEFAULT_LANG }) {
                         </>
                       )}
                       <div className="step-icon" style={{ backgroundColor: color }}>
-                        <span className="text-white text-[18px]">↗</span>
+                        <span className="text-white text-[18px]"><Image src={ArrowSvg} width={13} height={13} alt="arrow" /></span>
                       </div>
                     </div>
 
