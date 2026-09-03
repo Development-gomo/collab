@@ -7,6 +7,7 @@ import { getThemeOptions } from "@/lib/api";
 import { DEFAULT_LANG, langHref } from "@/config";
 
 import ArrowSvg from "../../../public/right-arrow.svg";
+import FooterImage from "./FooterImage";
 
 // Inline so we don't need new icon assets uploaded for each network
 const SOCIAL_ICONS = {
@@ -73,8 +74,15 @@ export default async function Footer({ lang = DEFAULT_LANG }) {
     <>
       {enable_section && (
       <section id="footer" className="relative bg-(--color-warm-stone) overflow-hidden">
-        <div className="web-width mx-auto px-6 grid lg:grid-cols-2 items-center">
-          <div className="max-w-[480px] py-16 lg:py-24">
+        <div className="relative flex flex-col lg:flex-row lg:min-h-[480px]">
+          {/* RIGHT — IMAGE */}
+          <FooterImage
+            src={bg_image?.url}
+            className="relative w-full h-[220px] lg:absolute lg:right-0 lg:top-0 lg:h-full lg:w-[58%] order-1 lg:order-2"
+          />
+
+          {/* LEFT — DIAGONAL TEXT PANEL */}
+          <div className="about-diagonal-panel relative z-10 w-full lg:w-[48%] bg-(--color-warm-stone) px-6 lg:pl-16 lg:pr-16 py-16 lg:py-0 order-2 lg:order-1 flex flex-col justify-center">
             {sub_heading && (
               <div className="flex items-center gap-2 mb-4">
                 <span className="h-2 w-2 rounded-full bg-(--color-clay)"></span>
@@ -85,7 +93,7 @@ export default async function Footer({ lang = DEFAULT_LANG }) {
             )}
 
             {heading && (
-              <h2 className="section-heading text-(--color-navy)">{heading}</h2>
+              <h2 className="section-heading text-(--color-navy) max-w-[420px]">{heading}</h2>
             )}
 
             {short_description && (
@@ -141,21 +149,7 @@ export default async function Footer({ lang = DEFAULT_LANG }) {
               </Link>
             )}
           </div>
-
-          {/* Mobile: normal in-flow image */}
-          {bg_image?.url && (
-            <div className="relative h-[220px] lg:hidden">
-              <Image src={bg_image.url} alt="" fill className="object-cover" />
-            </div>
-          )}
         </div>
-
-        {/* Desktop: full-bleed image, flush to the section's top/right/bottom edges */}
-        {bg_image?.url && (
-          <div className="hidden lg:block absolute inset-y-0 right-0 w-[46%]">
-            <Image src={bg_image.url} alt="" fill className="object-cover" />
-          </div>
-        )}
       </section>
       )}
 
