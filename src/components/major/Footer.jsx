@@ -168,7 +168,7 @@ export default async function Footer({ lang = DEFAULT_LANG }) {
               Flex, not a fixed grid — so it genuinely adapts to however many
               nav columns exist (3, 4, or more) instead of relying on a fixed
               track count that breaks when a column is empty. */}
-          <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-start gap-x-10 gap-y-10 pb-8">
+          <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-start lg:justify-between  gap-x-10 gap-y-10 pb-8">
             {/* LOGO + TAGLINE */}
             <div className="lg:w-[180px] shrink-0">
               <p className="text-[28px] leading-none font-bold text-black">

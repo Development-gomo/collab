@@ -60,7 +60,8 @@ h4,
 h5,
 h6 {
   font-family: var(--font-primary);
-  font-weight: 600;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 /* Global container */
@@ -89,7 +90,6 @@ em {
 .heading-xl h1,
 .heading-xl p {
   font-family: var(--font-primary);
-  font-weight: 700;
   font-size: 34px;
   line-height: 40px;
   color: var(--color-light);
@@ -112,7 +112,7 @@ em {
 }
 
 .hero-bg img {
-    top: -90px !important;
+    top: 0px !important;
 }
 
 .btn-hide {
@@ -151,7 +151,6 @@ em {
 .about-panel-heading p,
 .about-panel-heading h2 {
   font-family: var(--font-primary);
-  font-weight: 700;
   font-size: 28px;
   line-height: 34px;
 }
@@ -293,16 +292,16 @@ em {
 .hero-panel-heading p,
 .hero-panel-heading h1 {
   font-family: var(--font-primary);
-  font-weight: 600;
-  font-size: 26px;
-  line-height: 32px;
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 34px;
 }
 
 .hero-panel-heading em,
 .hero-panel-heading i {
   font-family: var(--font-primary) !important;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 900;
   color: var(--color-teracotta);
 }
 
@@ -357,12 +356,16 @@ em {
   }
 }
 
+    .hero-panel-heading {
+      text-transform: uppercase;
+    }
+
 @media (min-width: 768px) {
   .hero-panel-heading,
   .hero-panel-heading p,
   .hero-panel-heading h1 {
-    font-size: 34px;
-    line-height: 40px;
+    font-size: 38px;
+    line-height: 46px;
   }
 }
 
@@ -370,8 +373,8 @@ em {
   .hero-panel-heading,
   .hero-panel-heading p,
   .hero-panel-heading h1 {
-    font-size: 40px;
-    line-height: 46px;
+    font-size: 50px;
+    line-height: 60px;
   }
 }
 
@@ -498,6 +501,10 @@ em {
 span.subheading-label.text-\[var\(--color-accent\)\],
 #inner-hero .subheading-label {
   color: var(--color-accent) !important;
+}
+
+.section-heading, .section-heading * {
+  text-transform: uppercase;
 }
 
 /* Tablet */

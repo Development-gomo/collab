@@ -197,7 +197,7 @@ export default function CaseStudyListing({
                     )}
                     <Link
                       href={langHref(`/case-study/${item.slug}`, lang)}
-                      className="btn-hide mt-8 gap-3 group relative inline-flex items-center
+                      className="mt-8 gap-3 group relative inline-flex items-center
                       rounded-sm bg-(--color-accent) px-6 py-4 text-white
                       transition-all duration-300 hover:bg-(--color-accent)
                       w-40 overflow-hidden select-none">

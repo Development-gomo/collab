@@ -33,7 +33,7 @@ export default function HomeColumnSection({ data, lang = DEFAULT_LANG }) {
       <div className="w-full px-6 web-width">
         <div className="lg:flex lg:items-start lg:gap-20">
           {/* COLUMN 1 — LABEL + HEADING + SHORT TEXT + CTA */}
-          <div className="lg:w-[38%] lg:shrink-0 mb-12 lg:mb-0">
+          <div className="lg:w-[45%] lg:shrink-0 mb-12 lg:mb-0">
             {sub_heading && (
               <motion.p
                 className="subheading-label text-(--color-teracotta)! mb-2 md:mb-4"

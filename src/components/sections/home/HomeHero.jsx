@@ -51,16 +51,13 @@ export default function HomeHero({ data }) {
           />
         ) : null}
       </motion.div>
-
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-linear-to-b from-(--color-black)/25 via-(--color-black)/5 to-transparent -z-10"></div>
-
       {/* Diagonal panel */}
       <div className="hero-diagonal-panel absolute bottom-0 left-0 w-full lg:w-full h-[62%] sm:h-[56%] lg:h-[66%] bg-(--color-warm-stone) shadow-2xl" />
+      <div className="absolute inset-0 bg-linear-to-b from-(--color-warm-stone)/40 via-(--color-warm-stone)/65 to-transparent -z-10"></div>
 
       {/* HERO TEXT */}
-      <div className="relative z-10 min-h-screen web-width px-6 lg:px-10 h-full flex flex-col items-start justify-end">
-        <div className="max-w-[400px] lg:max-w-[510px] pb-12">
+      <div className="relative z-10 min-h-screen web-width px-6 lg:px-10 h-full flex flex-col items-start justify-center">
+        <div className="max-w-[900px] pb-12 pt-12">
           {label && (
             <motion.p
               initial={{ opacity: 0, y: 15 }}

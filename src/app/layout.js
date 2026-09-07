@@ -7,11 +7,11 @@ import LangSyncer from "@/components/LangSyncer";
 import ScrollProgress from "@/components/ScrollProgress";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
-import Script from "next/script"; // uncomment when adding tracking scripts
+//import Script from "next/script"; // uncomment when adding tracking scripts
 
 const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700","900"],
   variable: "--font-outfit",
   display: "swap",
 });
@@ -39,12 +39,12 @@ export default async function RootLayout({ children }) {
         />
         */}
 
-        {/* ── Google Tag Manager ── add GTM-XXXXXX and uncomment when live */}
+        {/* ── Google Tag Manager ── add GTM-XXXXXX and uncomment when live 
         <Script
           id="gtm"
           src="https://www.googletagmanager.com/gtm.js?id=GTM-MNT94DBK"
           strategy="afterInteractive"
-        />
+        />*/}
       
 
         {/* ── Other tracking scripts go here ── */}
