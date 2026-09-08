@@ -21,7 +21,7 @@ export default function AboutUs({ data }) {
   const sectionImageUrl = data?.section_image?.url || "";
 
   return (
-    <section id="about-section" className="border-top-1 about-section relative overflow-hidden bg-(--color-warm-stone)">
+    <section id="about-section" className="about-section relative overflow-hidden bg-(--color-warm-stone)">
       <div className="relative flex flex-col lg:flex-row lg:min-h-[620px]">
         {/* RIGHT — IMAGE */}
         {sectionImageUrl && (
