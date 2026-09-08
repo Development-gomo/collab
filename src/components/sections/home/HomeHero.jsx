@@ -31,7 +31,7 @@ export default function HomeHero({ data }) {
   return (
     <section ref={sectionRef} className="relative w-full overflow-hidden hero">
       {/* BG IMAGE/VIDEO */}
-      <motion.div className="absolute hero-bg inset-0 -z-10" style={{ y: bgY, scale: 1.1 }}>
+      <motion.div className="absolute hero-bg inset-0 -z-10" style={{ y: bgY }}>
         {bgVideo ? (
           <video
             src={bgVideo}
