@@ -35,15 +35,16 @@ export default function HomeColumnSection({ data, lang = DEFAULT_LANG }) {
           {/* COLUMN 1 — LABEL + HEADING + SHORT TEXT + CTA */}
           <div className="lg:w-[45%] lg:shrink-0 mb-12 lg:mb-0">
             {sub_heading && (
-              <motion.p
-                className="subheading-label text-(--color-teracotta)! mb-2 md:mb-4"
+              <motion.div
+                className="flex items-center gap-2 mb-2 md:mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                {sub_heading}
-              </motion.p>
+                <span className="h-2 w-2 rounded-full bg-(--color-accent)"></span>
+                <span className="subheading-label">{sub_heading}</span>
+              </motion.div>
             )}
 
             <motion.div
@@ -70,7 +71,10 @@ export default function HomeColumnSection({ data, lang = DEFAULT_LANG }) {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: columns_side.length * 0.1 + 0.3 }}
+                transition={{
+                  duration: 0.5,
+                  delay: columns_side.length * 0.1 + 0.3,
+                }}
                 viewport={{ once: true }}
               >
                 <Link
@@ -85,7 +89,12 @@ export default function HomeColumnSection({ data, lang = DEFAULT_LANG }) {
                   </span>
                   <span className="relative w-4 flex items-center justify-center">
                     <span className="w-4 absolute opacity-0 -translate-x-4 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:-translate-x-2">
-                      <Image src={ArrowSvg} width={13} height={13} alt="arrow" />
+                      <Image
+                        src={ArrowSvg}
+                        width={13}
+                        height={13}
+                        alt="arrow"
+                      />
                     </span>
                   </span>
                 </Link>
@@ -113,20 +122,36 @@ export default function HomeColumnSection({ data, lang = DEFAULT_LANG }) {
                     transition={{ duration: 0.5, delay: idx * 0.1 }}
                     viewport={{ once: true }}
                   >
-                    <div className="step-pulse-wrap relative shrink-0" style={{ "--step-color": color }}>
+                    <div
+                      className="step-pulse-wrap relative shrink-0"
+                      style={{ "--step-color": color }}
+                    >
                       {isActive && (
                         <>
                           <span className="step-pulse-ring" />
                           <span className="step-pulse-ring step-pulse-ring-delay" />
                         </>
                       )}
-                      <div className="step-icon" style={{ backgroundColor: color }}>
-                        <span className="text-white text-[18px]"><Image src={ArrowSvg} width={13} height={13} alt="arrow" /></span>
+                      <div
+                        className="step-icon"
+                        style={{ backgroundColor: color }}
+                      >
+                        <span className="text-white text-[18px]">
+                          <Image
+                            src={ArrowSvg}
+                            width={13}
+                            height={13}
+                            alt="arrow"
+                          />
+                        </span>
                       </div>
                     </div>
 
                     <div>
-                      <span className="step-number block mb-1" style={{ color }}>
+                      <span
+                        className="step-number block mb-1"
+                        style={{ color }}
+                      >
                         {String(idx + 1).padStart(2, "0")}
                       </span>
 

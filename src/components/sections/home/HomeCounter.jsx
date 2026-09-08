@@ -57,19 +57,21 @@ export default function HomeCounter({ data, lang = DEFAULT_LANG }) {
 
       {/* BACKGROUND IMAGE */}
       {bg_image?.url && (
-        <motion.div className="absolute inset-0 -z-10" style={{ y: bgY, scale: 1.15 }}>
+        <motion.div className="absolute inset-0 -z-10" style={{ y: bgY }}>
           <Image
             src={bg_image.url}
             alt="background"
             fill
             priority
+            quality={90}
+            sizes="100vw"
             className="w-full h-full object-cover"
           />
         </motion.div>
       )}
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-linear-to-b from-(--color-navy)/85 via-(--color-navy)/75 to-(--color-navy)/65 -z-10"></div>
+      <div className="absolute inset-0 bg-linear-to-b from-(--color-black)/35 via-(--color-black)/25 to-(--color-black)/15 -z-10"></div>
 
 
       <div className="web-width px-6 grid lg:grid-cols-2 gap-2 items-center">

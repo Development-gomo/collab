@@ -87,13 +87,13 @@ export async function getMediaById(id) {
 
 // Menus — cache for 1 hour (menus rarely change)
 export async function getMenu(lang = DEFAULT_LANG) {
-  const menu = await fetchWP(`/myroutes/v1/menus?lang=${lang}`, { revalidate: 3600 });
+  const menu = await fetchWP(`/myroutes/v1/menus?lang=${lang}`, { revalidate: 60 });
   return menu;
 }
 
 // Footer widgets — cache for 1 hour
 export async function getFooterWidgets(lang = DEFAULT_LANG) {
-  const footer = await fetchWP(`/myroutes/v1/footer-widgets?lang=${lang}`, { revalidate: 3600 });
+  const footer = await fetchWP(`/myroutes/v1/footer-widgets?lang=${lang}`, { revalidate: 60 });
   return footer;
 }
 

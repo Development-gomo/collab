@@ -37,7 +37,7 @@ export default function HomeServices({ data, lang = DEFAULT_LANG, prefetchedServ
             viewport={{ once: true }}
           >
             <span className="h-2 w-2 rounded-full bg-(--color-accent)"></span>
-            <span className="subheading-label">{sub_heading}</span>
+            <span className="subheading-label">{sub_heading}</span>       
           </motion.div>
         )}
 

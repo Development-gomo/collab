@@ -11,7 +11,7 @@ import { notFound } from "next/navigation";
 import { DEFAULT_LANG, SUPPORTED_LANGS } from "@/config";
 import Link from "next/link";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const results = await Promise.all(

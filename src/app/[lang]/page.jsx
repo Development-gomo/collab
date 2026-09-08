@@ -9,7 +9,7 @@ import { resolveParams } from "@/lib/params";
 import { notFound } from "next/navigation";
 import { DEFAULT_LANG, SUPPORTED_LANGS } from "@/config";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   return SUPPORTED_LANGS.map((lang) => ({ lang }));

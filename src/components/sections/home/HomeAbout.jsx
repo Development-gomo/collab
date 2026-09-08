@@ -68,7 +68,7 @@ export default function AboutUs({ data }) {
           {/* HEADING */}
           {heading && (
             <motion.div
-              className="about-panel-heading text-(--color-navy) max-w-[420px] mb-4"
+              className="about-panel-heading text-(--color-navy) max-w-[480px] mb-4"
               dangerouslySetInnerHTML={{ __html: heading }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -79,13 +79,13 @@ export default function AboutUs({ data }) {
 
           {/* CONTENT HEADING (regular paragraph) */}
           {content_heading && (
-            <p className="body-text max-w-[400px] mb-4">{content_heading}</p>
+            <p className="body-text max-w-[480px] mb-4">{content_heading}</p>
           )}
 
           {/* SHORT TEXT (bold paragraph) */}
           {short_text && (
             <div
-              className="body-text font-semibold max-w-[420px] mb-6"
+              className="body-text max-w-[450px] mb-6"
               dangerouslySetInnerHTML={{ __html: short_text }}
             />
           )}
