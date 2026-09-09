@@ -92,7 +92,6 @@ em {
   font-family: var(--font-primary);
   font-size: 34px;
   line-height: 40px;
-  color: var(--color-light);
 }
 
 .heading-xl p i,
@@ -465,7 +464,6 @@ em {
 
 /* Hero variation (white text) */
 .hero .body-text {
-  color: var(--color-white);
   font-size: 18px;
 }
 

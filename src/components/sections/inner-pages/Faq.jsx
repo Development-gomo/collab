@@ -8,12 +8,13 @@ export default function Faq({ data }) {
   const {
     sub_heading,
     heading,
+    short_text,
     section_image,
     faq_position,
     background_image,
     background_color,
-    faqs = [],
   } = data;
+  const faqs = Array.isArray(data?.faqs) ? data.faqs : [];
   const [openIndex, setOpenIndex] = useState(0); // first open by default
 
   const toggle = (index) => {
@@ -26,7 +27,7 @@ export default function Faq({ data }) {
 
   return (
     <section
-      className={`relative text-white ${bgImageUrl ? "" : "bg-(--color-brand)"}`}
+      className={`relative ${bgImageUrl ? "" : "bg-(--color-brand)"}`}
       style={!bgImageUrl && background_color ? { backgroundColor: background_color } : undefined}
     >
       {/* BACKGROUND IMAGE */}
@@ -64,6 +65,14 @@ export default function Faq({ data }) {
           />
         )}
 
+        {/* SHORT TEXT */}
+        {short_text && (
+          <div
+            className="mb-8 md:mb-14"
+            dangerouslySetInnerHTML={{ __html: short_text }}
+          />
+        )}
+
         <div className="flex flex-col lg:flex-row lg:gap-16 xl:gap-24">
           {/* IMAGE */}
           {sectionImageUrl && (
@@ -95,15 +104,15 @@ export default function Faq({ data }) {
                   <div key={index} className="py-6 md:py-8 [&:nth-last-child(1)]:pb-0">
                     <button
                       onClick={() => toggle(index)}
-                      className="w-full flex items-center gap-4 md:gap-20 text-left cursor-pointer"
+                      className="w-full flex items-center gap-4 md:gap-10 text-left cursor-pointer"
                     >
                       {/* NUMBER */}
-                      <span className="text-[var(--color-accent)] text-sm md:text-base min-w-[30px] pt-1">
+                      <span className="text-[var(--color-teracotta)] text-sm md:text-base min-w-[30px] pt-1">
                         ({String(index + 1).padStart(2, "0")})
                       </span>
 
                       {/* QUESTION */}
-                      <span className="flex-1 content-heading text-white">
+                      <span className="flex-1 content-heading">
                         {faq.question}
                       </span>
 
@@ -114,7 +123,7 @@ export default function Faq({ data }) {
                           alt="toggle icon"
                           width={16}
                           height={16}
-                          className={`transition-transform duration-300 ${
+                          className={`transition-transform duration-300 brightness-0 ${
                             isOpen ? "rotate-45" : ""
                           }`}
                         />
@@ -123,7 +132,7 @@ export default function Faq({ data }) {
 
                     {/* ANSWER */}
                     {isOpen && (
-                      <div className="ml-[64px] md:ml-[108px] mt-6 max-w-[1104px] text-white">
+                      <div className="ml-14 md:ml-[75px] mt-6 max-w-[1104px] ">
                         <div dangerouslySetInnerHTML={{ __html: faq.answers }} />
                       </div>
                     )}
