@@ -26,20 +26,16 @@ export default function InnerHero({ data }) {
       className="relative w-full  overflow-hidden hero"
     >
       {/* BG IMAGE/VIDEO */}
-      <motion.div className="absolute inset-0 -z-10" style={{ y }}>
-        {bgImage && (
-          <Image
-            src={bgImage}
-            alt="Hero Background"
-            fill
-            className="object-cover scale-125"
-            priority
+      <div
+            className="absolute inset-0 bg-cover bg-top"
+            style={{
+              background: `linear-gradient(180deg, rgba(0, 0, 0, 0.70) 0.40%, rgba(0, 0, 0, 0.20) 39.69%), url(${bgImage}) lightgray 0px  no-repeat`,
+              backgroundSize: "cover",
+            }}
           />
-        )}
-      </motion.div>
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-(--color-warm-stone)/70 -z-10"></div>
+      <div className="absolute inset-0 bg-(--color-black)/30 -z-10"></div>
 
       {/* HERO TEXT */}
       <div className="relative min-h-screen web-width px-6 py-24 lg:py-20 h-full flex md:justify-between md:items-end md:flex-row flex-col justify-end items-stretch">
@@ -49,7 +45,7 @@ export default function InnerHero({ data }) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="uppercase subheading-label text-[var(--color-navy)] mb-4 md:mb-6"
+              className="uppercase subheading-label text-white mb-4 md:mb-6"
               dangerouslySetInnerHTML={{ __html: sub_heading }}
             />
           )}
@@ -58,14 +54,14 @@ export default function InnerHero({ data }) {
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="heading-xl text-black"
+              className="heading-xl text-white"
               dangerouslySetInnerHTML={{
                 __html: heading.replace(/<em>(.*?)<\/em>/g, `<em>$1</em>`),
               }}
             />
           </h1>
           <div
-            className="body-text max-w-[480px] mt-6 text-black"
+            className="max-w-[480px] text-xl mt-6 text-white"
             dangerouslySetInnerHTML={{ __html: short_text }}
           />
         </div>
