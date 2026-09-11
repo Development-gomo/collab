@@ -60,7 +60,7 @@ export default function HomeHero({ data }) {
 
       {/* HERO TEXT */}
       <div className="relative z-10 min-h-screen web-width px-6 lg:px-10 h-full flex flex-col items-start justify-end">
-        <div className="max-w-[1000px] pb-12 pt-12">
+        <div className="max-w-[1100px] pb-12 pt-12">
           {label && (
             <motion.div
               initial={{ opacity: 0, y: 15 }}
