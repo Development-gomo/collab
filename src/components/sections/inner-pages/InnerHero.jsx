@@ -27,10 +27,9 @@ export default function InnerHero({ data }) {
     >
       {/* BG IMAGE/VIDEO */}
       <div
-            className="absolute inset-0 bg-cover bg-top"
+            className="absolute inset-0 bg-cover bg-top lg:bg-contain"
             style={{
               background: `linear-gradient(180deg, rgba(0, 0, 0, 0.70) 0.40%, rgba(0, 0, 0, 0.20) 39.69%), url(${bgImage}) lightgray 0px  no-repeat`,
-              backgroundSize: "cover",
             }}
           />
 

@@ -48,10 +48,9 @@ export default function HomeHero({ data }) {
           />
         ) : bgImage ? (
           <div
-            className="absolute inset-0 -top-[123px] bg-cover bg-top"
+            className="absolute inset-0 lg:-top-[123px] bg-cover bg-top lg:bg-contain"
             style={{
               background: `linear-gradient(180deg, rgba(0, 0, 0, 0.70) 0.21%, rgba(0, 0, 0, 0.00) 39.69%), url(${bgImage}) lightgray 0px  no-repeat`,
-              backgroundSize: "contain",
             }}
           />
         ) : null}

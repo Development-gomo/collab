@@ -121,11 +121,22 @@ em {
   display: none;
 }
 
+
+@media screen and (max-width:767px) {
+  .hero-panel-heading, .hero-panel-heading p, .hero-panel-heading h1 {
+    font-size: 24px;
+    line-height: 34px;
+  }
+  .hero-panel-heading br, .hero-panel-heading p br, .hero-panel-heading h1 br {
+    display: none;
+  }
+}
+
 /* ==========================================
    HOME HERO — diagonal panel shape
 ========================================== */
 .hero-diagonal-panel {
-  clip-path: polygon(0% 8%, 100% 30%, 100% 100%, 0% 100%);
+  clip-path: polygon(0% 0%, 100% 23%, 100% 100%, 0% 100%);
 }
 
 @media (min-width: 640px) {
