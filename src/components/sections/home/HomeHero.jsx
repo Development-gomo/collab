@@ -50,7 +50,8 @@ export default function HomeHero({ data }) {
           <div
             className="absolute inset-0 -top-[123px] bg-cover bg-top"
             style={{
-              background: `linear-gradient(180deg, rgba(0, 0, 0, 0.50) 0.21%, rgba(0, 0, 0, 0.00) 39.69%), url(${bgImage}) lightgray 0px -114.415px / 100% 101.186% no-repeat`,
+              background: `linear-gradient(180deg, rgba(0, 0, 0, 0.70) 0.21%, rgba(0, 0, 0, 0.00) 39.69%), url(${bgImage}) lightgray 0px  no-repeat`,
+              backgroundSize: "contain",
             }}
           />
         ) : null}
@@ -59,7 +60,7 @@ export default function HomeHero({ data }) {
       <div className="hero-diagonal-panel absolute bottom-0 left-0 w-full lg:w-full h-[62%] sm:h-[56%] lg:h-[66%] bg-(--color-warm-stone) shadow-2xl" />
 
       {/* HERO TEXT */}
-      <div className="relative z-10 min-h-screen web-width px-6 lg:px-10 h-full flex flex-col items-start justify-end">
+      <div className="relative z-10 min-h-screen web-width lg:pb-2 px-6 lg:px-10 h-full flex flex-col items-start justify-end">
         <div className="max-w-[1100px] pb-12 pt-12">
           {label && (
             <motion.div
