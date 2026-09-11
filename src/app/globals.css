@@ -550,6 +550,12 @@ span.subheading-label.text-\[var\(--color-accent\)\],
   text-transform: uppercase;
 }
 
+.body-text.max-w-\[450px\].mb-6 ul {
+    list-style: disc;
+    padding-left: 35px;
+    margin: 15px 0;
+}
+
 /* Tablet */
 @media (min-width: 768px) {
   .section-heading {
