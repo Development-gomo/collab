@@ -15,7 +15,7 @@ export default function Faq({ data }) {
     background_color,
   } = data;
   const faqs = Array.isArray(data?.faqs) ? data.faqs : [];
-  const [openIndex, setOpenIndex] = useState(0); // first open by default
+  const [openIndex, setOpenIndex] = useState(null); // first open by default
 
   const toggle = (index) => {
     setOpenIndex(index === openIndex ? null : index);
