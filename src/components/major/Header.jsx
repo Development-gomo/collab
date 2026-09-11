@@ -129,7 +129,7 @@ export default function Header({
   }, [lang, currentSlug, entryType, pathPrefix, entryId]);
 
   return (
-    <header className={headerClasses}>
+    <header className={headerClasses} style={{ top: "var(--top-banner-offset, 0px)" }}>
       <div className="web-width mx-auto px-6 flex items-center justify-between relative">
         {/* LOGO */}
         <Link
@@ -179,8 +179,7 @@ export default function Header({
                       href={langHref(item.url, lang)}
                       prefetch={true}
                       onClick={(e) => handleNavClick(e, item.url)}
-                      className={`
-                            ${scrolled ? "text-(--color-navy)/90 hover:text-(--color-navy)" : "text-white/90 hover:text-white"} relative z-9 text-[15px] transition leading-[18px] flex items-center gap-2`}
+                      className="text-(--color-navy)/90 hover:text-(--color-navy) relative z-9 text-[15px] transition leading-[18px] flex items-center gap-2"
                     >
                       {item.title}
 
@@ -191,7 +190,7 @@ export default function Header({
                             alt="arrow"
                             width={10}
                             height={10}
-                            className={scrolled ? "brightness-0" : ""}
+                            className="brightness-0"
                           />
                         </span>
                       )}

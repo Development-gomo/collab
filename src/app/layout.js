@@ -5,6 +5,8 @@ import { headers } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
 import LangSyncer from "@/components/LangSyncer";
 import ScrollProgress from "@/components/ScrollProgress";
+import TopBanner from "@/components/TopBanner";
+import { getThemeOptions } from "@/lib/api";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 //import Script from "next/script"; // uncomment when adding tracking scripts
@@ -25,6 +27,7 @@ export default async function RootLayout({ children }) {
   // for both EN and DA without nesting a second <html> in [lang]/layout.js.
   const h = await headers();
   const lang = h.get("x-lang") || DEFAULT_LANG;
+  const themeOptions = await getThemeOptions(lang);
 
   return (
     <html lang={lang} className={outfit.variable} suppressHydrationWarning>
@@ -66,6 +69,7 @@ export default async function RootLayout({ children }) {
         />
         <LangSyncer />
         <ScrollProgress />
+        <TopBanner data={themeOptions?.pop_up} />
         {children}
         <SpeedInsights />
         <Analytics />

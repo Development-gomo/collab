@@ -102,11 +102,11 @@ export async function getThemeOptions(lang = DEFAULT_LANG) {
   try {
     const options = await fetchWP(`/densou/v1/theme-options?lang=${lang}`, { revalidate: 86400 });
     if (!options) {
-      return { header: {}, footer: {} };
+      return { header: {}, footer: {}, pop_up: {} };
     }
     return options;
   } catch {
-    return { header: {}, footer: {} };
+    return { header: {}, footer: {}, pop_up: {} };
   }
 }
 

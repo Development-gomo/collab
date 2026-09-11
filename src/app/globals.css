@@ -18,20 +18,23 @@
   /* Secondary colors */
   --color-warm-stand: #ddc4ab;
   --color-teracotta: #a55f40;
-  --color-white: #FFFFFF;
+  --color-white: #ffffff;
   --color-black: #000000;
 
   /** Accent colors */
-  --color-purple: #1F0276;
+  --color-purple: #1f0276;
   --color-blue: #306994;
-  --color-mint: #8CE3D3;
- 
+  --color-mint: #8ce3d3;
 
   /* Legacy tokens re-pointed at the new palette so every existing
      bg-(--color-x) / text-(--color-x) usage site-wide picks up the rebrand */
   --color-dark: var(--color-navy);
   --color-light: var(--color-white);
-  --color-grey: color-mix(in srgb, var(--color-navy) 55%, var(--color-warm-stone));
+  --color-grey: color-mix(
+    in srgb,
+    var(--color-navy) 55%,
+    var(--color-warm-stone)
+  );
   --color-accent: var(--color-mint);
   --color-brand: var(--color-navy);
   --color-bg: var(--color-navy);
@@ -111,11 +114,11 @@ em {
 }
 
 .hero-bg img {
-    top: 0px !important;
+  top: 0px !important;
 }
 
 .btn-hide {
-    display: none;
+  display: none;
 }
 
 /* ==========================================
@@ -219,8 +222,12 @@ em {
    HOME CASE STUDIES — carousel
 ========================================== */
 @keyframes case-progress-fill {
-  from { width: 0%; }
-  to { width: 100%; }
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -233,7 +240,9 @@ em {
 .case-swiper .swiper-slide {
   opacity: 0.55;
   transform: scale(0.94);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
 }
 
 .case-swiper .swiper-slide-active {
@@ -308,8 +317,38 @@ em {
   color: var(--color-teracotta);
 }
 
-.about-section {
-  /* border-top: 1px solid var(--color-warm-stand); */
+.top-banner-text em,
+.top-banner-text i,
+.top-banner-text span {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--color-teracotta);
+}
+
+.top-banner-text a {
+  color: var(--color-teracotta);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.top-banner-text h1,
+.top-banner-text h2,
+.top-banner-text h3 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: inherit;
+  line-height: inherit;
+  display: inline;
+  text-transform: initial;
+}
+
+.top-banner-text p {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  display: inline;
 }
 
 .hero-panel-subtext span {
@@ -345,8 +384,13 @@ em {
 }
 
 @keyframes hero-scroll-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -355,9 +399,9 @@ em {
   }
 }
 
-    .hero-panel-heading {
-      text-transform: uppercase;
-    }
+.hero-panel-heading {
+  text-transform: uppercase;
+}
 
 @media (min-width: 768px) {
   .hero-panel-heading,
@@ -501,7 +545,8 @@ span.subheading-label.text-\[var\(--color-accent\)\],
   color: var(--color-accent) !important;
 }
 
-.section-heading, .section-heading * {
+.section-heading,
+.section-heading * {
   text-transform: uppercase;
 }
 
@@ -703,7 +748,7 @@ span.subheading-label.text-\[var\(--color-accent\)\],
 
 .body-text.max-w-\[500px\] p a:hover,
 .w-\[200px\] a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 @media screen and (max-width: 767px) {
