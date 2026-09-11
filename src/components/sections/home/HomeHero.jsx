@@ -20,9 +20,14 @@ export default function HomeHero({ data }) {
   const heading = data?.heading || "";
   const shortHeading = data?.short_heading || "";
 
-  // TODO: no ACF fields exist yet for the eyebrow label or the two CTAs
-  // shown in the new design — wire these to real fields once added.
   const label = data?.label || "";
+  // Split "You have the data. We put it to work." into a highlighted
+  // pill (first sentence) and a plain bold remainder, matching the design.
+  const sentenceBreak = label.indexOf(". ");
+  const labelHighlight =
+    sentenceBreak === -1 ? label : label.slice(0, sentenceBreak + 1);
+  const labelRest = sentenceBreak === -1 ? "" : label.slice(sentenceBreak + 2);
+
   const primaryCtaText = data?.cta_text || "";
   const primaryCtaUrl = data?.cta_url || "";
   const secondaryCtaText = data?.secondary_cta_text || "";
@@ -42,31 +47,45 @@ export default function HomeHero({ data }) {
             className="w-full h-full object-cover"
           />
         ) : bgImage ? (
-          <Image
-            src={bgImage}
-            alt=""
-            fill
-            priority
-            className="object-cover object-top -top-[123px]"
+          <div
+            className="absolute inset-0 -top-[123px] bg-cover bg-top"
+            style={{
+              background: `linear-gradient(180deg, rgba(0, 0, 0, 0.50) 0.21%, rgba(0, 0, 0, 0.00) 39.69%), url(${bgImage}) lightgray 0px -114.415px / 100% 101.186% no-repeat`,
+            }}
           />
         ) : null}
       </motion.div>
       {/* Diagonal panel */}
       <div className="hero-diagonal-panel absolute bottom-0 left-0 w-full lg:w-full h-[62%] sm:h-[56%] lg:h-[66%] bg-(--color-warm-stone) shadow-2xl" />
-      <div className="absolute inset-0 bg-linear-to-b from-(--color-warm-stone)/40 via-(--color-warm-stone)/65 to-transparent -z-10"></div>
 
       {/* HERO TEXT */}
-      <div className="relative z-10 min-h-screen web-width px-6 lg:px-10 h-full flex flex-col items-start justify-center">
-        <div className="max-w-[900px] pb-12 pt-12">
+      <div className="relative z-10 min-h-screen web-width px-6 lg:px-10 h-full flex flex-col items-start justify-end">
+        <div className="max-w-[1000px] pb-12 pt-12">
           {label && (
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="uppercase subheading-label text-(--color-teracotta)! mb-3"
+              className="flex flex-wrap items-center gap-2 mb-4"
             >
-              {label}
-            </motion.p>
+              <span className="inline-block rounded-sm bg-(--color-mint) text-(--color-navy) text-sm font-semibold px-3 py-1 leading-none">
+                {labelHighlight}
+              </span>
+              {labelRest && (
+                <span className="text-(--color-navy) text-sm font-semibold leading-none">
+                  {labelRest}
+                </span>
+              )}
+            </motion.div>
+          )}
+          {shortHeading && (
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="hero-panel-subtext body-text max-w-[360px] mb-4 text-(--color-navy)!"
+              dangerouslySetInnerHTML={{ __html: shortHeading }}
+            />
           )}
 
           {/* Heading */}
@@ -78,19 +97,9 @@ export default function HomeHero({ data }) {
             dangerouslySetInnerHTML={{ __html: heading }}
           />
 
-          {shortHeading && (
-            <motion.div
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="hero-panel-subtext body-text max-w-[360px] mt-4 text-(--color-navy)!"
-              dangerouslySetInnerHTML={{ __html: shortHeading }}
-            />
-          )}
-
           {/* CTAs */}
           {(primaryCtaText || secondaryCtaText) && (
-            <div className="flex flex-wrap items-center gap-6 mt-8">
+            <div className="flex flex-wrap items-center gap-6 mt-6">
               {primaryCtaText && primaryCtaUrl && (
                 <Link
                   href={primaryCtaUrl}
@@ -98,7 +107,8 @@ export default function HomeHero({ data }) {
                     gap-3 group relative inline-flex items-center
                     rounded-sm bg-(--color-brand) px-6 py-4 text-white
                     transition-all duration-300 hover:bg-(--color-brand)
-                    w-[154px] overflow-hidden select-none">
+                    w-[154px] overflow-hidden select-none"
+                >
                   {/* DOT */}
                   <span className="relative w-6 flex items-center justify-center">
                     <span
@@ -130,7 +140,12 @@ export default function HomeHero({ data }) {
                         group-hover:opacity-100 group-hover:-translate-x-1
                       "
                     >
-                      <Image src={ArrowSvg} width={13} height={13} alt="arrow" />
+                      <Image
+                        src={ArrowSvg}
+                        width={13}
+                        height={13}
+                        alt="arrow"
+                      />
                     </span>
                   </span>
                 </Link>
@@ -142,7 +157,9 @@ export default function HomeHero({ data }) {
                   className="group inline-flex items-center gap-2 text-[16px] text-(--color-navy) select-none"
                 >
                   {secondaryCtaText}
-                  <span className="text-(--color-accent) transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
+                  <span className="text-(--color-accent) transition-transform duration-300 ease-out group-hover:translate-x-1">
+                    →
+                  </span>
                 </Link>
               )}
             </div>
@@ -155,7 +172,9 @@ export default function HomeHero({ data }) {
         href="#about-section"
         onClick={(e) => {
           e.preventDefault();
-          document.querySelector("#about-section")?.scrollIntoView({ behavior: "smooth" });
+          document
+            .querySelector("#about-section")
+            ?.scrollIntoView({ behavior: "smooth" });
         }}
         className="hero-scroll-cue absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-(--color-navy)"
         initial={{ opacity: 0, y: -6 }}

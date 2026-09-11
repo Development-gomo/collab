@@ -136,7 +136,7 @@ em {
 
 @media (min-width: 1024px) {
   .hero-diagonal-panel {
-    clip-path: polygon(0% 0%, 100% 60%, 100% 100%, 0% 100%);
+    clip-path: polygon(0% 0%, 100% 40%, 100% 100%, 0% 100%);
   }
 }
 

@@ -179,7 +179,11 @@ export default function Header({
                       href={langHref(item.url, lang)}
                       prefetch={true}
                       onClick={(e) => handleNavClick(e, item.url)}
-                      className="text-(--color-navy)/90 hover:text-(--color-navy) relative z-9 text-[15px] transition leading-[18px] flex items-center gap-2"
+                      className={`${
+                        scrolled
+                          ? "text-(--color-navy)/90 hover:text-(--color-navy)"
+                          : "text-white/90 hover:text-white"
+                      } relative z-9 text-[15px] transition leading-[18px] flex items-center gap-2`}
                     >
                       {item.title}
 
@@ -190,7 +194,7 @@ export default function Header({
                             alt="arrow"
                             width={10}
                             height={10}
-                            className="brightness-0"
+                            className={scrolled ? "brightness-0" : "brightness-0 invert"}
                           />
                         </span>
                       )}
