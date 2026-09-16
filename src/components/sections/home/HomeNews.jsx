@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import ArrowSvg from "../../../../public/right-arrow.svg";
 import CalenerSvg from "../../../../public/calender.svg";
+import DownSvg from "../../../../public/hero-down-arrow.png";
 import { DEFAULT_LANG, langHref } from "@/config";
 
 const CARDS_PER_PAGE = 3;
@@ -32,6 +33,19 @@ export default function HomeNews({
   } = data || {};
   const bgImageUrl = data?.background_image?.url || "";
   const [visibleCount, setVisibleCount] = useState(CARDS_PER_PAGE);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const filterRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (filterRef.current && !filterRef.current.contains(e.target)) {
+        setFilterOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   if (!posts.length) return null;
 
@@ -43,8 +57,31 @@ export default function HomeNews({
     return terms.filter((t) => t.taxonomy === "category");
   }
 
-  const visiblePosts = posts.slice(0, visibleCount);
-  const hasMore = visibleCount < posts.length;
+  // Unique categories across all fetched posts, for the filter dropdown
+  const allCategories = Array.from(
+    posts
+      .flatMap((post) => getCategories(post))
+      .reduce((map, cat) => map.set(cat.slug, cat), new Map())
+      .values()
+  );
+
+  const filteredPosts = selectedCategory
+    ? posts.filter((post) =>
+        getCategories(post).some((cat) => cat.slug === selectedCategory)
+      )
+    : posts;
+
+  function handleSelectCategory(slug) {
+    setSelectedCategory(slug);
+    setVisibleCount(CARDS_PER_PAGE);
+    setFilterOpen(false);
+  }
+
+  const selectedCategoryName =
+    allCategories.find((cat) => cat.slug === selectedCategory)?.name || "All";
+
+  const visiblePosts = filteredPosts.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredPosts.length;
 
   return (
     <section
@@ -165,9 +202,63 @@ export default function HomeNews({
           </div>
         </div>
 
+        {/* CATEGORY FILTER */}
+        {allCategories.length > 1 && (
+          <div className="flex justify-end mb-8">
+            <div ref={filterRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setFilterOpen((v) => !v)}
+                className="flex items-center gap-2 cursor-pointer px-4 py-3 rounded-sm text-sm border border-gray-300 bg-white"
+              >
+                <span>{selectedCategoryName}</span>
+                <span
+                  className={`transition-transform duration-300 ${
+                    filterOpen ? "rotate-180" : ""
+                  }`}
+                >
+                  <Image src={DownSvg} alt="arrow" width={10} height={10} />
+                </span>
+              </button>
+
+              {filterOpen && (
+                <div className="absolute right-0 mt-2 min-w-[160px] rounded-sm border border-gray-200 bg-white shadow-lg overflow-hidden z-20">
+                  <button
+                    type="button"
+                    onClick={() => handleSelectCategory(null)}
+                    className={`block w-full text-left px-4 py-3 text-sm hover:bg-(--color-warm-stone) transition ${
+                      !selectedCategory ? "font-medium" : ""
+                    }`}
+                  >
+                    All
+                  </button>
+                  {allCategories.map((cat) => (
+                    <button
+                      key={cat.slug}
+                      type="button"
+                      onClick={() => handleSelectCategory(cat.slug)}
+                      className={`block w-full text-left px-4 py-3 text-sm hover:bg-(--color-warm-stone) transition ${
+                        selectedCategory === cat.slug ? "font-medium" : ""
+                      }`}
+                    >
+                      {cat.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* ------------------------------------------------------------
          POST CARD GRID — 3 PER ROW
       ------------------------------------------------------------ */}
+        {visiblePosts.length === 0 && (
+          <p className="text-center text-(--color-grey)">
+            No news found in this category.
+          </p>
+        )}
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {visiblePosts.map((post, idx) => {
             const img =

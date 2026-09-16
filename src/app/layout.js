@@ -62,10 +62,10 @@ export default async function RootLayout({ children }) {
         
 
         <NextTopLoader
-          color="#8CE3D3"
+          color="#a55f40"
           height={3}
           showSpinner={false}
-          shadow="0 0 10px #8CE3D3,0 0 5px #8CE3D3"
+          shadow="0 0 10px #a55f40,0 0 5px #a55f40"
         />
         <LangSyncer />
         <ScrollProgress />
