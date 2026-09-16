@@ -1,11 +1,12 @@
 // src/app/[lang]/news/[slug]/page.jsx
 
 import Header from "@/components/major/Header";
+import Footer from "@/components/major/Footer";
 import PageBuilder from "@/components/major/PageBuilder";
+import PostHero from "@/components/sections/news/PostHero";
 import { resolveParams } from "@/lib/params";
 import { getPostBySlug, getMediaById } from "@/lib/api";
 import { buildMetadataFromYoast } from "@/lib/seo";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 
 /* ---------------------------------------------------------
@@ -24,7 +25,7 @@ function PostBody({ entry, lang }) {
   if (contentHtml) {
     return (
       <div
-        className="prose prose-lg max-w-3xl mx-auto"
+        className="prose prose-lg max-w-3xl mx-auto *:mb-5 [&>*:last-child]:mb-0 [&_br]:block [&_br]:after:content-[''] [&_br]:after:block [&_br]:after:h-4"
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       />
     );
@@ -59,6 +60,10 @@ export default async function postSinglePage({ params }) {
     featuredMedia?.source_url ||
     null;
 
+  const categories = (post?._embedded?.["wp:term"]?.[0] || []).filter(
+    (t) => t.taxonomy === "category"
+  );
+
   return (
     <>
       <Header
@@ -68,43 +73,16 @@ export default async function postSinglePage({ params }) {
         pathPrefix="news"
       />
 
-      <main className="px-4 py-12 space-y-8">
+      <PostHero post={post} heroImage={heroImage} categories={categories} />
+
+      <main id="next" className="px-4 py-12 space-y-8 bg-white">
         <article className="max-w-4xl mx-auto space-y-6">
-
-          {/* TITLE */}
-          {post?.title?.rendered && (
-            <h1
-              className="text-4xl font-semibold"
-              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-            />
-          )}
-
-          {/* EXCERPT */}
-          {post?.excerpt?.rendered && (
-            <div
-              className="text-lg text-gray-600"
-              dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-            />
-          )}
-
-          {/* HERO IMAGE */}
-          {heroImage && (
-            <div className="relative w-full h-80 rounded-lg overflow-hidden">
-              <Image
-                src={heroImage}
-                alt={post?.title?.rendered || "Post hero image"}
-                fill
-                className="object-cover"
-                sizes="(min-width: 1024px) 1024px, 100vw"
-                priority
-              />
-            </div>
-          )}
-
           {/* BODY CONTENT (ACF OR WYSIWYG) */}
           <PostBody entry={post} lang={lang} />
         </article>
       </main>
+
+      <Footer lang={lang} currentSlug={slug} />
     </>
   );
 }

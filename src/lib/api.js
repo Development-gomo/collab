@@ -24,7 +24,7 @@ async function getSingleEntry(endpoint, slug, lang = DEFAULT_LANG) {
   if (!slug) return null;
 
   try {
-    const url = `/wp/v2/${endpoint}?slug=${encodeURIComponent(slug)}&lang=${lang}`;
+    const url = `/wp/v2/${endpoint}?slug=${encodeURIComponent(slug)}&lang=${lang}&_embed`;
     const entries = await fetchWP(url);
 
     if (!Array.isArray(entries) || entries.length === 0) {
