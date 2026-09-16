@@ -10,6 +10,12 @@ import { DEFAULT_LANG, langHref } from "@/config";
 
 const CARDS_PER_PAGE = 3;
 
+// Strip WP excerpt markup (including its own "[...]"/"Continue reading" link,
+// which points at the WordPress backend) so the card only ever renders plain text.
+function stripHtml(html) {
+  return (html || "").replace(/<[^>]*>/g, "").trim();
+}
+
 export default function HomeNews({
   data,
   lang = DEFAULT_LANG,
@@ -98,9 +104,13 @@ export default function HomeNews({
           <div className="md:w-1/2">
             {/* SHORT TEXT */}
             {short_text && (
-              <div
+              <motion.div
                 className="body-text"
                 dangerouslySetInnerHTML={{ __html: short_text }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
               />
             )}
 
@@ -208,12 +218,9 @@ export default function HomeNews({
 
                     {/* EXCERPT */}
                     {post?.excerpt?.rendered && (
-                      <div
-                        className="text-[14px] leading-[22px] text-(--color-grey) mb-4 line-clamp-3"
-                        dangerouslySetInnerHTML={{
-                          __html: post.excerpt.rendered,
-                        }}
-                      />
+                      <p className="text-[14px] leading-[22px] text-(--color-grey) mb-4 line-clamp-3">
+                        {stripHtml(post.excerpt.rendered)}
+                      </p>
                     )}
 
                     {/* DATE + READ MORE */}
