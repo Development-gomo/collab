@@ -13,7 +13,7 @@ import { Analytics } from "@vercel/analytics/next";
 
 const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700","900"],
+  weight: ["400", "500", "600", "700", "900"],
   variable: "--font-outfit",
   display: "swap",
 });
@@ -48,18 +48,16 @@ export default async function RootLayout({ children }) {
           src="https://www.googletagmanager.com/gtm.js?id=GTM-MNT94DBK"
           strategy="afterInteractive"
         />*/}
-      
 
         {/* ── Other tracking scripts go here ── */}
       </head>
       <body suppressHydrationWarning>
         {/* ── GTM noscript fallback ── uncomment when live */}
-        <noscript>
+        {/* <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-MNT94DBK" height="0" width="0" style={{ display: "none", visibility: "hidden" }}
           />
-        </noscript>
-        
+        </noscript> */}
 
         <NextTopLoader
           color="#a55f40"
