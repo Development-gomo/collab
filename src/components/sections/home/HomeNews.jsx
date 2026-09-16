@@ -1,45 +1,31 @@
 "use client";
 
-import React from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import ArrowSvg from "../../../../public/right-arrow.svg";
 import CalenerSvg from "../../../../public/calender.svg";
 import { DEFAULT_LANG, langHref } from "@/config";
 
-function TiltCard({ children, className }) {
-  const rotateX = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 });
-  const rotateY = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 });
+const CARDS_PER_PAGE = 3;
 
-  const handleMouseMove = (e) => {
-    const bounds = e.currentTarget.getBoundingClientRect();
-    const px = (e.clientX - bounds.left) / bounds.width - 0.5;
-    const py = (e.clientY - bounds.top) / bounds.height - 0.5;
-    rotateY.set(px * 6);
-    rotateX.set(py * -6);
-  };
-
-  const handleMouseLeave = () => {
-    rotateX.set(0);
-    rotateY.set(0);
-  };
-
-  return (
-    <motion.div
-      className={className}
-      style={{ rotateX, rotateY, transformPerspective: 800 }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-export default function HomeNews({ data, lang = DEFAULT_LANG, prefetchedPosts }) {
+export default function HomeNews({
+  data,
+  lang = DEFAULT_LANG,
+  prefetchedPosts,
+}) {
   const posts = prefetchedPosts || [];
-  const { sub_heading, heading, cta_text, cta_url } = data || {};
+  const {
+    sub_heading,
+    heading,
+    short_text,
+    cta_text,
+    cta_url,
+    background_color,
+  } = data || {};
+  const bgImageUrl = data?.background_image?.url || "";
+  const [visibleCount, setVisibleCount] = useState(CARDS_PER_PAGE);
 
   if (!posts.length) return null;
 
@@ -51,195 +37,131 @@ export default function HomeNews({ data, lang = DEFAULT_LANG, prefetchedPosts })
     return terms.filter((t) => t.taxonomy === "category");
   }
 
-  // First post with category "webinar"
-  const webinarPost =
-    posts.find((post) =>
-      getCategories(post).some((cat) => cat.slug === "webinar")
-    ) || posts[0]; // fallback
-
-  // Other posts (non-webinar)
-  const otherPosts = posts
-    .filter(
-      (post) =>
-        !getCategories(post).some((cat) => cat.slug === "webinar") &&
-        post.id !== webinarPost.id
-    )
-    .slice(0, 2);
+  const visiblePosts = posts.slice(0, visibleCount);
+  const hasMore = visibleCount < posts.length;
 
   return (
-    <section className="py-15 md:py-30 web-width px-6 bg-(--color-warm-stone)">
-      {/* SUB HEADING */}
-      {sub_heading && (
-        <motion.div
-          className="flex items-center gap-2 mb-2 md:mb-4"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <span className="h-2 w-2 rounded-full bg-(--color-accent)"></span>
-          <span className="subheading-label">{sub_heading}</span>
-        </motion.div>
-      )}
-
-      {/* HEADING + CTA */}
-      <div className="md:flex md:justify-between items-end mb-12">
-        <motion.div
-          className="section-heading mb-5 md:mb-0"
-          dangerouslySetInnerHTML={{ __html: heading }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          viewport={{ once: true }}
-        />
-
-        {cta_text && cta_url && (
-          <Link
-            href={langHref(cta_url, lang)}
-            className="
-              gap-3 group relative inline-flex items-center
-              rounded-sm bg-(--color-brand) px-6 py-4 text-white
-              transition-all duration-300 hover:bg-(--color-brand)
-              w-[235px] overflow-hidden select-none
-            "
-          >
-            {/* LEFT DOT */}
-            <span className="relative w-6 flex items-center justify-center">
-              <span
-                className="
-                  absolute h-2 w-2 rounded-full bg-(--color-mint)
-                  transition-all duration-300 ease-out
-                  group-hover:opacity-0 group-hover:-translate-x-1
-                "
-              ></span>
-            </span>
-
-            {/* TEXT */}
-            <span
-              className="
-                flex-1 text-[16px] leading-none
-                transition-all duration-300 ease-out
-                group-hover:-translate-x-4
-                whitespace-nowrap
-              "
-            >
-              {cta_text}
-            </span>
-
-            {/* ARROW */}
-            <span className="relative w-4 flex items-center justify-center">
-              <span
-                className="
-                  w-4 absolute opacity-0 -translate-x-4
-                  transition-all duration-300 ease-out
-                  group-hover:opacity-100 group-hover:-translate-x-2
-                "
-              >
-                <Image src={ArrowSvg} width={13} height={13} alt="arrow" />
-              </span>
-            </span>
-          </Link>
-        )}
-      </div>
-
-      {/* MAIN CONTENT GRID */}
-      <div className="grid lg:grid-cols-[1.6fr_1fr] gap-8">
-        {/* ------------------------------------------------------------
-           LEFT BIG WEBINAR CARD
-        ------------------------------------------------------------ */}
-        <Link
-          href={langHref(`/post/${webinarPost.slug}`, lang)}
-          className="block"
-        >
-        <TiltCard className="relative rounded-lg overflow-hidden group">
-          {/* FEATURED IMAGE */}
-          {webinarPost?._embedded?.["wp:featuredmedia"]?.[0]?.source_url && (
-            <Image
-              src={webinarPost._embedded["wp:featuredmedia"][0].source_url}
-              width={700}
-              height={420}
-              alt={webinarPost.title.rendered}
-              className="w-full h-[430px] object-cover group-hover:scale-105 transition-all duration-500"
+    <section
+      className={`relative ${bgImageUrl ? "" : "bg-(--color-warm-stone)"}`}
+      style={
+        !bgImageUrl && background_color
+          ? { backgroundColor: background_color }
+          : undefined
+      }
+    >
+      {/* BACKGROUND IMAGE */}
+      {bgImageUrl && (
+        <div className="absolute inset-0 -z-10">
+          <Image
+            src={bgImageUrl}
+            alt=""
+            fill
+            quality={90}
+            sizes="100vw"
+            className="object-cover"
+          />
+          {background_color && (
+            <div
+              className="absolute inset-0"
+              style={{ backgroundColor: background_color }}
             />
           )}
+        </div>
+      )}
 
-          {/* GRADIENT OVERLAY */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-
-          {/* CATEGORY BADGE */}
-          <div className="absolute top-8 left-8">
-            <span className="bg-(--color-bg) backdrop-blur-md text-white px-3 py-1.5 rounded-full text-[12px] leading-[15px] flex items-center gap-2">
-              <span className="h-2 w-2 bg-(--color-accent) rounded-full"></span>
-              {getCategories(webinarPost)[0]?.name || "Webinar"}
-            </span>
+      <div className="web-width px-6 py-15 md:py-30">
+        {/* HEADING + SHORT TEXT — HALF/HALF */}
+        <div className="md:flex md:gap-12 md:justify-between items-end mb-12">
+          {/* SUB HEADING */}
+          <div className="md:w-1/2">
+            {sub_heading && (
+              <motion.div
+                className="flex items-center gap-2 mb-2 md:mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <span className="h-2 w-2 rounded-full bg-(--color-accent)"></span>
+                <span className="subheading-label">{sub_heading}</span>
+              </motion.div>
+            )}
+            <motion.div
+              className="section-heading mb-5 md:mb-0"
+              dangerouslySetInnerHTML={{ __html: heading }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              viewport={{ once: true }}
+            />
           </div>
-
-          {/* TEXT */}
-          <div className="absolute flex bottom-8 left-8 right-8 md:justify-between  flex-col md:flex-row">
-            <div className="mt-4 max-w-[380px]">
-              <h3
-                className="text-white text-[32px] leading-[34px] font-medium mb-6"
-                dangerouslySetInnerHTML={{ __html: webinarPost.title.rendered }}
+          <div className="md:w-1/2">
+            {/* SHORT TEXT */}
+            {short_text && (
+              <div
+                className="body-text"
+                dangerouslySetInnerHTML={{ __html: short_text }}
               />
-              {/* CTA BUTTON */}
+            )}
 
-              <p className=" gap-3 group relative inline-flex items-center rounded-sm bg-(--color-brand) px-6 py-4 text-white transition-all duration-300 hover:bg-(--color-brand) w-[180px] overflow-hidden select-none">
+            {/* CTA */}
+            {cta_text && cta_url && (
+              <Link
+                href={langHref(cta_url, lang)}
+                className="
+                gap-3 group relative inline-flex items-center
+                rounded-sm bg-(--color-brand) px-6 py-4 text-white
+                transition-all duration-300 hover:bg-(--color-brand)
+                w-[235px] overflow-hidden select-none
+              "
+              >
                 {/* LEFT DOT */}
                 <span className="relative w-6 flex items-center justify-center">
-                  <span className="absolute h-2 w-2 rounded-full bg-(--color-mint) transition-all duration-300 ease-out group-hover:opacity-0 group-hover:-translate-x-1"></span>
+                  <span
+                    className="
+                    absolute h-2 w-2 rounded-full bg-(--color-mint)
+                    transition-all duration-300 ease-out
+                    group-hover:opacity-0 group-hover:-translate-x-1
+                  "
+                  ></span>
                 </span>
 
                 {/* TEXT */}
                 <span
                   className="
-                      flex-1 text-[16px] leading-none
-                      transition-all duration-300 ease-out
-                      group-hover:-translate-x-4
-                      whitespace-nowrap">Join the session</span>
+                  flex-1 text-[16px] leading-none
+                  transition-all duration-300 ease-out
+                  group-hover:-translate-x-4
+                  whitespace-nowrap
+                "
+                >
+                  {cta_text}
+                </span>
 
                 {/* ARROW */}
                 <span className="relative w-4 flex items-center justify-center">
                   <span
                     className="
-                        w-4 absolute opacity-0 -translate-x-4
-                        transition-all duration-300 ease-out
-                        group-hover:opacity-100 group-hover:-translate-x-2
-                      "
+                    w-4 absolute opacity-0 -translate-x-4
+                    transition-all duration-300 ease-out
+                    group-hover:opacity-100 group-hover:-translate-x-2
+                  "
                   >
                     <Image src={ArrowSvg} width={13} height={13} alt="arrow" />
                   </span>
                 </span>
-              </p>
-            </div>
-            <div className="div mt-6 md:mt-0">
-              {(webinarPost?.acf?.webinar_date ||
-                webinarPost?.acf?.webinar_time) && (
-                <div className="text-white/90 md:mb-4">
-                  <p className="text-sm">Starts:</p>
-                  <p className="font-semibold">
-                    {webinarPost?.acf?.webinar_date || ""}
-                    {webinarPost?.acf?.webinar_time && (
-                      <>
-                        <br />
-                        {webinarPost.acf.webinar_time}
-                      </>
-                    )}
-                  </p>
-                </div>
-              )}
-            </div>
+              </Link>
+            )}
           </div>
-        </TiltCard>
-        </Link>
+        </div>
 
         {/* ------------------------------------------------------------
-           RIGHT SIDE — TWO SMALL POSTS
-        ------------------------------------------------------------ */}
-        <div className="flex flex-col gap-6">
-          {otherPosts.map((post, idx) => {
+         POST CARD GRID — 3 PER ROW
+      ------------------------------------------------------------ */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {visiblePosts.map((post, idx) => {
             const img =
               post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "";
-
             const category = getCategories(post)[0]?.name || "Insights";
 
             return (
@@ -247,58 +169,163 @@ export default function HomeNews({ data, lang = DEFAULT_LANG, prefetchedPosts })
                 key={post.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.12 }}
+                transition={{
+                  duration: 0.5,
+                  delay: (idx % CARDS_PER_PAGE) * 0.12,
+                }}
                 viewport={{ once: true }}
               >
-              <Link
-                href={langHref(`/post/${post.slug}`, lang)}
-                className="flex gap-6 group items-center"
-              >
-                {/* IMAGE */}
-                <div className="w-[140px] h-[204px] overflow-hidden rounded-lg">
-                  {img && (
-                    <Image
-                      src={img}
-                      width={140}
-                      height={120}
-                      alt={post.title.rendered}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-all duration-300"
-                    />
-                  )}
-                </div>
+                <Link
+                  href={langHref(`/news/${post.slug}`, lang)}
+                  className="block group bg-(--color-warm-stone) rounded-lg "
+                >
+                  {/* IMAGE */}
+                  <div className="relative w-full h-65 overflow-hidden rounded-lg ">
+                    {img && (
+                      <Image
+                        src={img}
+                        width={460}
+                        height={240}
+                        alt={post.title.rendered}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                      />
+                    )}
 
-                {/* TEXT AREA */}
-                <div className="flex-1">
-                  <span className="bg-white/20 border border-gray-300 w-[85px] mb-3 text-(--color-grey) px-3 py-[6px] rounded-full text-xs flex items-center gap-2 mb-2">
-                    <span className="h-2 w-2 bg-(--color-accent) rounded-full"></span>
-                    {category}
-                  </span>
-
-                  <h4
-                    className="font-medium text-[18px] leading-[26px] mb-4"
-                    dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                  />
-
-                  <div className="text-[14px] text-(--color-grey)">
-                    <Image
-                      src={CalenerSvg}
-                      width={12}
-                      height={12}
-                      alt="calendar"
-                      className="inline-block mr-1 mb-1"
-                    />
-                    {new Date(post.date).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
+                    {/* CATEGORY BADGE */}
+                    <span className="absolute top-4 left-4 bg-(--color-bg) backdrop-blur-md text-white px-3 py-1.5 rounded-full text-[12px] leading-[15px] flex items-center gap-2">
+                      <span className="h-2 w-2 bg-(--color-accent) rounded-full"></span>
+                      {category}
+                    </span>
                   </div>
-                </div>
-              </Link>
+
+                  {/* TEXT CONTENT */}
+                  <div className="p-6">
+                    {/* TITLE */}
+                    <h4
+                      className="font-medium text-[18px] leading-[26px] mb-3"
+                      dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                    />
+
+                    {/* EXCERPT */}
+                    {post?.excerpt?.rendered && (
+                      <div
+                        className="text-[14px] leading-[22px] text-(--color-grey) mb-4 line-clamp-3"
+                        dangerouslySetInnerHTML={{
+                          __html: post.excerpt.rendered,
+                        }}
+                      />
+                    )}
+
+                    {/* DATE + READ MORE */}
+                    <div className="flex items-center justify-between gap-4">
+                      {/* DATE */}
+                      <div className="text-[14px] text-(--color-grey)">
+                        <Image
+                          src={CalenerSvg}
+                          width={12}
+                          height={12}
+                          alt="calendar"
+                          className="inline-block mr-1 mb-1"
+                        />
+                        {new Date(post.date).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </div>
+
+                      {/* READ MORE BUTTON */}
+                      <span className="gap-3 relative inline-flex items-center rounded-sm bg-(--color-brand) px-6 py-4 text-white transition-all duration-300 hover:bg-(--color-brand) w-[150px] overflow-hidden select-none">
+                        {/* LEFT DOT */}
+                        <span className="relative w-6 flex items-center justify-center">
+                          <span className="absolute h-2 w-2 rounded-full bg-(--color-mint) transition-all duration-300 ease-out group-hover:opacity-0 group-hover:-translate-x-1"></span>
+                        </span>
+
+                        {/* TEXT */}
+                        <span
+                          className="
+                          flex-1 text-[16px] leading-none
+                          transition-all duration-300 ease-out
+                          group-hover:-translate-x-4
+                          whitespace-nowrap"
+                        >
+                          Read more
+                        </span>
+
+                        {/* ARROW */}
+                        <span className="relative w-4 flex items-center justify-center">
+                          <span
+                            className="
+                            w-4 absolute opacity-0 -translate-x-4
+                            transition-all duration-300 ease-out
+                            group-hover:opacity-100 group-hover:-translate-x-2
+                          "
+                          >
+                            <Image
+                              src={ArrowSvg}
+                              width={13}
+                              height={13}
+                              alt="arrow"
+                            />
+                          </span>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </Link>
               </motion.div>
             );
           })}
         </div>
+
+        {/* LOAD MORE */}
+        {hasMore && (
+          <div className="flex justify-center mt-12">
+            <button
+              type="button"
+              onClick={() => setVisibleCount((count) => count + CARDS_PER_PAGE)}
+              className="
+              gap-3 group relative inline-flex items-center
+              rounded-sm bg-(--color-brand) px-6 py-4 text-white
+              transition-all duration-300 hover:bg-(--color-brand) w-35
+              overflow-hidden select-none cursor-pointer
+            "
+            >
+              <span className="relative w-6 flex items-center justify-center">
+                <span
+                  className="
+                  absolute h-2 w-2 rounded-full bg-(--color-mint)
+                  transition-all duration-300 ease-out
+                  group-hover:opacity-0 group-hover:-translate-x-1
+                "
+                ></span>
+              </span>
+
+              <span
+                className="
+                flex-1 text-[16px] leading-none
+                transition-all duration-300 ease-out
+                group-hover:-translate-x-4
+                whitespace-nowrap
+              "
+              >
+                Load more
+              </span>
+
+              <span className="relative w-4 flex items-center justify-center">
+                <span
+                  className="
+                  w-4 absolute opacity-0 -translate-x-4
+                  transition-all duration-300 ease-out
+                  group-hover:opacity-100 group-hover:-translate-x-2
+                "
+                >
+                  <Image src={ArrowSvg} width={13} height={13} alt="arrow" />
+                </span>
+              </span>
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

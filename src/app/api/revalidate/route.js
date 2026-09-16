@@ -11,8 +11,8 @@ const POST_TYPE_PREFIX = {
   service:    "service",     // /en/service/seo
   services:   "service",
   case_study: "case-study",  // /en/case-study/project-x
-  post:       "post",        // /en/post/my-article
-  posts:      "post",
+  post:       "news",        // /en/news/my-article
+  posts:      "news",
 };
 
 export async function POST(req) {
