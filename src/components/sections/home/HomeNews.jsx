@@ -84,7 +84,7 @@ export default function HomeNews({
   const hasMore = visibleCount < filteredPosts.length;
 
   return (
-    <section
+    <section id="next"
       className={`relative ${bgImageUrl ? "" : "bg-(--color-warm-stone)"}`}
       style={
         !bgImageUrl && background_color
