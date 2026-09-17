@@ -11,6 +11,7 @@ export default function InnerHero({ data }) {
   const heading = data?.heading || "";
   const sub_heading = data?.sub_heading || "";
   const short_text = data?.short_text || "";
+  const hero_height = data?.hero_height || "100";
 
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -20,24 +21,22 @@ export default function InnerHero({ data }) {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
 
   return (
-    <section
-      id="inner-hero"
-      ref={sectionRef}
-      className="relative w-full  overflow-hidden hero"
-    >
+    <section id="inner-hero" ref={sectionRef} className="relative overflow-hidden hero" style={{ minHeight: `${hero_height}vh` }}>
       {/* BG IMAGE/VIDEO */}
       <div
-            className="absolute inset-0 bg-cover bg-top lg:bg-contain"
-            style={{
-              background: `linear-gradient(180deg, rgba(0, 0, 0, 0.70) 0.40%, rgba(0, 0, 0, 0.20) 39.69%), url(${bgImage}) lightgray 0px  no-repeat`,
-            }}
-          />
+        className="absolute inset-0 bg-cover bg-top lg:bg-contain"
+        style={{
+          background: `linear-gradient(180deg, rgba(0, 0, 0, 0.70) 0.40%, rgba(0, 0, 0, 0.20) 39.69%), url(${bgImage}) lightgray 0px  no-repeat`,
+          backgroundPosition: "center center",
+          backgroundSize: "cover",
+        }}
+      />
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-(--color-black)/30 -z-10"></div>
+      <div className="absolute inset-0 bg-black/30 -z-10"></div>
 
       {/* HERO TEXT */}
-      <div className="relative min-h-screen web-width px-6 py-24 lg:py-20 h-full flex md:justify-between md:items-end md:flex-row flex-col justify-end items-stretch">
+      <div className="relative web-width px-6 py-24 lg:py-20 flex md:justify-between md:items-end md:flex-row flex-col justify-end items-stretch" style={{ minHeight: `${hero_height}vh` }}>
         <div className="max-w-[1046px]">
           {sub_heading && (
             <motion.p

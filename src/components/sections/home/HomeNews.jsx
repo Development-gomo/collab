@@ -114,6 +114,7 @@ export default function HomeNews({
 
       <div className="web-width px-6 py-15 md:py-30">
         {/* HEADING + SHORT TEXT — HALF/HALF */}
+        {(sub_heading || heading || short_text || (cta_text && cta_url)) && (
         <div className="md:flex md:gap-12 md:justify-between items-end mb-12">
           {/* SUB HEADING */}
           <div className="md:w-1/2">
@@ -201,6 +202,7 @@ export default function HomeNews({
             )}
           </div>
         </div>
+        )}
 
         {/* CATEGORY FILTER */}
         {allCategories.length > 1 && (
