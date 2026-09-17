@@ -75,7 +75,7 @@ export default async function postSinglePage({ params }) {
 
       <PostHero post={post} heroImage={heroImage} categories={categories} />
 
-      <main id="next" className="px-4 py-12 space-y-8 bg-white">
+      <main id="next" className="px-8 py-12 space-y-8 bg-white">
         <article className="max-w-4xl mx-auto space-y-6">
           {/* BODY CONTENT (ACF OR WYSIWYG) */}
           <PostBody entry={post} lang={lang} />
