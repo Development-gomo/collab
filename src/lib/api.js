@@ -87,20 +87,20 @@ export async function getMediaById(id) {
 
 // Menus — cache for 1 hour (menus rarely change)
 export async function getMenu(lang = DEFAULT_LANG) {
-  const menu = await fetchWP(`/myroutes/v1/menus?lang=${lang}`, { revalidate: 60 });
+  const menu = await fetchWP(`/myroutes/v1/menus?lang=${lang}`, { revalidate: 600 });
   return menu;
 }
 
 // Footer widgets — cache for 1 hour
 export async function getFooterWidgets(lang = DEFAULT_LANG) {
-  const footer = await fetchWP(`/myroutes/v1/footer-widgets?lang=${lang}`, { revalidate: 60 });
+  const footer = await fetchWP(`/myroutes/v1/footer-widgets?lang=${lang}`, { revalidate: 600 });
   return footer;
 }
 
 // Theme options (logo, colours, socials) — cache for 24 hours
 export async function getThemeOptions(lang = DEFAULT_LANG) {
   try {
-    const options = await fetchWP(`/densou/v1/theme-options?lang=${lang}`, { revalidate: 86400 });
+    const options = await fetchWP(`/densou/v1/theme-options?lang=${lang}`, { revalidate: 600 });
     if (!options) {
       return { header: {}, footer: {}, pop_up: {} };
     }
